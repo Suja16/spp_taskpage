@@ -7,11 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TableVirtuoso, TableComponents } from 'react-virtuoso';
 import NextLink from 'next/link';
 import { Container, Hidden } from '@mui/material';
-import { FitScreen } from '@mui/icons-material';
 import SpringModal from '@/components/popup';
+import Link from 'next/link';
+import TaskDetails from './TaskDetails/page';
+
 
 const columns = [
   { id: 'task', label: 'Task' },
@@ -55,9 +56,11 @@ export default function Task() {
                   <TableCell>{row.endDate}</TableCell>
                   <TableCell>{row.status}</TableCell>
                   <TableCell>
+                    <Link href={'/TaskDetails'}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                       <path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/>
                     </svg>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

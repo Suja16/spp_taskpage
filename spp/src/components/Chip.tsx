@@ -27,7 +27,6 @@ const CustomChip = ({ labels }: { labels: string[] }) => {
     <ThemeProvider theme={theme}>
       {labels.map((label, index) => (
         <Chip
-          color='primary'
           key={index}
           label={label}
           variant={selectedChip === index ? 'filled' : 'outlined'}
@@ -36,6 +35,12 @@ const CustomChip = ({ labels }: { labels: string[] }) => {
             margin: '4px',
             "--Chip-radius": "3px",
             "--Chip-minHeight": "38px",
+            backgroundColor: selectedChip === index ? '#48B1ED' : ' white',
+            color: selectedChip === index ? 'white' : '#48B1ED',
+            ':hover': {
+              backgroundColor: selectedChip === index ? '#48B1ED' : ' white',
+              color: selectedChip === index ? 'black' : '#48B1ED',
+            },
           }}
         />
       ))}

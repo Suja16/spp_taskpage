@@ -25,7 +25,8 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-hook-form": "^7.50.0",
+    "react-hook-form": "^7.50.1",
+    "react-router-dom": "^6.22.0",
     "react-spring": "^9.7.3",
     "react-virtuoso": "^4.6.3",
     "zod": "^3.22.4"
