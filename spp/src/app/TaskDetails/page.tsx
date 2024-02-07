@@ -1,53 +1,61 @@
 import React from 'react';
-import { Container } from '@mui/material';
-import Divider from '@mui/material';
+import { Container, Divider, Chip, Link, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export default function TaskDetails() {
+
+const TaskDetails = () => {
   return (
-    <div>
-    <div>
-      <link href="/">Back to all Task</link>
-    </div>
-    <div>
-        <h1>Task Details</h1>
-    </div>
-    <div>
-        <div>
-            <h5>Task Information</h5>
+    <Container
+      sx={{
+        m:8 ,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+      }}
+    
+    >
+      <div style={{display:'flex',marginBottom:'0.5rem',alignItems:'center'}}>
+        <ArrowBackIcon sx={{color:'#48B1ED'}} />
+        <Link href="/" variant='h6' sx={{color:'#48B1ED', fontWeight:'700'}}>Back to all Tasks</Link>
+      </div>
+      <div style={{marginBottom:'3rem'}}>
+        <Typography variant="h4" fontWeight={700}>Task Details</Typography>
+      </div>
+      <div style={{display:'flex',justifyContent: 'start', alignItems:'center', flexWrap:'wrap'}}>
+      <div style={{display:'flex',flexDirection:'column',gap:'2rem',width:'50%'}}>
+        <div style={{marginBottom:'2rem'}}>
+          <Typography variant="h6">Task Information</Typography>
+        </div>
+        <div style={{display:'flex',justifyContent: 'space-between', alignItems:'center', flexWrap:'wrap',width:'100%'}}>
+          <div style={{width:'50%'}}>
+            <Typography variant="h6">Title</Typography>
+            <Typography>Karan</Typography>
+          </div>
+          <div style={{width:'50%'}}>
+            <Typography variant="h6">Description</Typography>
+            <Typography>Rudra</Typography>
+          </div>
         </div>
         <div>
-            <div>
-            <h6>Title</h6>
-            <p>Karan</p>
-            </div>
-            <div>
-                Description
-            </div>
+          <div>
+            <Typography variant="h6">Assigned to</Typography>
+            <Typography>Karan</Typography>
+          </div>
         </div>
+      </div>
+      <Divider orientation="vertical" flexItem />
+      <div style={{ margin:'2rem',display:'flex',justifyContent:'space-between'}}>
         <div>
-            <div>
-            <h6>Assigned to</h6>
-            <p>John</p>
-            </div>
+          <Typography variant="h6">Status</Typography>
+          <Chip
+            label="Assigned"
+            variant="filled"
+          />
         </div>
-    </div>
-    <Divider/>
-    <div>
-        <div>
-        <h6>Status</h6>
-        <Chip
-          color='secondry'
-          label='New'
-          sx={{
-            margin: '4px',
-            "--Chip-radius": "3px",
-            "--Chip-minHeight": "38px",
-          }}
-        />
-        </div>
-
-    </div>
-
-    </div>
+      </div>
+      </div>
+    </Container>
   );
-}
+};
+
+export default TaskDetails;

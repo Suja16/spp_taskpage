@@ -16,11 +16,15 @@ const theme = createTheme({
   },
 });
 
-const CustomChip = ({ labels }: { labels: string[] }) => {
+const CustomChip = ({ labels, value, onChange }: { labels: string[], value?: string, onChange?: (value: string) => void }) => {
   const [selectedChip, setSelectedChip] = useState<number | null>(null);
 
   const handleChipClick = (index: number) => {
-    setSelectedChip(index === selectedChip ? null : index);
+    const selectedValue = labels[index];
+    setSelectedChip(index);
+    if (onChange) {
+      onChange(selectedValue);
+    }
   };
 
   return (
