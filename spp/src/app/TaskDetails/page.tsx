@@ -7,6 +7,7 @@ import { Grid } from "@mui/material";
 const TaskDetails = () => {
   const labels = ['Tag1', 'Tag2', 'Tag3'];
   return (
+    <>
     <Container
       sx={{
         m: 8,
@@ -115,6 +116,7 @@ const TaskDetails = () => {
         ;
       </div>
     </Container>
+    </>
   );
 };
 
