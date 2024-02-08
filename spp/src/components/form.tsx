@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType, string, z } from 'zod';
 
+
 const style = {
   width: '31vw',
   marginTop: '1rem',
@@ -58,18 +59,25 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
 
   return (
     <form style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between', padding: '3rem', alignItems: 'baseline' }} onSubmit={handleSubmit(submitData)}>
-      <div style={err}>
-      <TextField id="title" label="Title *" variant="outlined" style={style} {...register('title')} />
-      {errors.title && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.title.message}</p>}
-      </div>
-      <div style={err}>
-      <TextField id="assignTo" label="Assign To *" variant="outlined" style={style} {...register('assignTo')} />
-      {errors.assignTo && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.assignTo.message}</p>}
-      </div>
-      <div style={err}>
+      <TextField 
+      id="title" 
+      label="Title *"
+       variant="outlined" 
+       style={style} {...register('title')}
+       error={Boolean(errors.title)}
+      helperText={errors.title &&  errors.title.message  } />
+      <TextField 
+      id="assignTo" 
+      label="Assign To *" 
+      variant="outlined" 
+      style={style} 
+      {...register('assignTo')}
+      error={Boolean(errors.assignTo)}
+      helperText={errors.assignTo &&  errors.assignTo.message  }
+      />
       <TextField id="description" label="Description" variant="outlined" style={style} {...register('description')} />
       {errors.description && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.description.message}</p>}
-      </div>
+
       <div style={{ ...style, display: 'flex', justifyContent: 'space-between' }}>
         <div style={err}>
         <TextField
@@ -81,11 +89,10 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
           InputLabelProps={{
             shrink: true,
           }}
+          helperText={errors.startDate && errors.startDate.message}
           {...register('startDate', { valueAsDate: true })}
         />
-        {errors.startDate && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.startDate.message}</p>}
         </div>
-        <div style={err}>
         <TextField
           id="end-date"
           label="End Date"
@@ -96,9 +103,9 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
             shrink: true,
           }}
           {...register('endDate', { valueAsDate: true })}
+          error={Boolean(errors.endDate)}
+          helperText={errors.endDate && errors.endDate.message}
         />
-        {errors.endDate && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.endDate.message}</p>}
-        </div>
       </div>
       <div style={style}>
         <h6 style={{ marginLeft: '0.3rem', marginBottom: '0.6rem' }}>Priority</h6>
@@ -108,7 +115,7 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
             onChange={(value) => setValue('priority', value)}
           />
 
-      {errors.priority && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.priority.message}</p>}
+      {errors.priority && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '0.5rem' }}>{errors.priority.message}</p>}
       </div>
       <div style={style}>
         <h6 style={{ marginLeft: '0.3rem', marginBottom: '0.6rem' }}>Assign Work</h6>
@@ -116,8 +123,9 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
             labels={['Other', 'Deposits', 'Withdrawals']}
             value={watch('assignWork')}
             onChange={(value) => setValue('assignWork', value)}
+            
           />
-        {errors.assignWork && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.assignWork.message}</p>}
+        {errors.assignWork && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '0.5rem' }}>{errors.assignWork.message}</p>}
       </div>
       <div style={{width:'100%',display:'flex',justifyContent:'flex-end'}} >
       <button

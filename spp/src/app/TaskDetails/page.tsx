@@ -23,12 +23,13 @@ const TaskDetails = () => {
           gap:'0.5rem'
         }}
       >
-        <ArrowBackIcon sx={{ color: "#48B1ED" }} />
+        
         <Link
           href="/"
           variant="h6"
-          sx={{ color: "#48B1ED", fontWeight: "700" }}
+          sx={{ color: "#48B1ED", fontWeight: "700",display:'flex',alignItems:'center',gap:'0.5rem'/ }}
         >
+          <ArrowBackIcon sx={{ color: "#48B1ED" }} />
           Back to all Tasks
         </Link>
       </div>
