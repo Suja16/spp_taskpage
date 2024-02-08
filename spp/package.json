@@ -38,5 +38,12 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "tsc": "tsc"  
   }
+
 }
