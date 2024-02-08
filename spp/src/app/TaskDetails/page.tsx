@@ -6,6 +6,18 @@ import { Grid } from "@mui/material";
 
 const TaskDetails = () => {
   const labels = ['Tag1', 'Tag2', 'Tag3'];
+
+  // Replace these with dynamic data based on your application
+  const taskData = {
+    title: "Sample Task",
+    assignedTo: "John Doe",
+    description: "Task description goes here",
+    status: "new",
+    priority: "High",
+    startDate: "2024-02-08",
+    endDate: "2024-02-15",
+  };
+
   return (
     <>
       <Container
@@ -55,13 +67,48 @@ const TaskDetails = () => {
           }}
         >
           <Grid container spacing={4} style={{ width: "50%" }}>
-            {/* ... Grid items with dynamic data */}
+            <Grid item xs={6}>
+              <Typography variant="h6">Title</Typography>
+              <Typography>{taskData.title}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">Assigned to</Typography>
+              <Typography>{taskData.assignedTo}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">Description</Typography>
+              <Typography>{taskData.description}</Typography>
+            </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid container spacing={4} style={{ margin: "2rem", width: "40%" }}>
-            {/* ... Grid items with dynamic data */}
+            <Grid item xs={6}>
+              <Typography variant="h6">Status</Typography>
+              <Chip
+                label={taskData.status}
+                sx={{
+                  borderRadius: '3px',
+                  minHeight: '38px',
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">Priority</Typography>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography>{taskData.priority}</Typography>
+                <KeyboardDoubleArrowUpIcon sx={{ color: "#3199D4" }} />
+              </div>
+            </Grid>
             <Grid item xs={6}>
               <Typography variant="h6">Start Date</Typography>
+              <Typography>{taskData.startDate}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">End Date</Typography>
+              <Typography>{taskData.endDate}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">Tags</Typography>
               {labels.map((label, index) => (
                 <Chip
                   key={index}
