@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import NextLink from 'next/link';
-import { Container, Hidden } from '@mui/material';
+import { Box, Container, Hidden } from '@mui/material';
 import SpringModal from '@/components/popup';
 import Link from 'next/link';
 
@@ -29,7 +29,8 @@ const rows = [
 
 export default function Task() {
   return (
-    <Container sx={{ mt: 8,}}>
+    <Container maxWidth="xl-lg" sx={{ mt: 8, }}>
+      <Box sx={{margin:'0vw 5vw'}}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>Tasks</h1>
         <SpringModal/>
@@ -67,6 +68,7 @@ export default function Task() {
           </Table>
         </TableContainer>
       </Paper>
+      </Box> 
     </Container>
   );
 }

@@ -9,9 +9,9 @@ const TaskDetails = () => {
 
   // Replace these with dynamic data based on your application
   const taskData = {
-    title: "Sample Task",
-    assignedTo: "John Doe",
-    description: "Task description goes here",
+    title: "Karan",
+    assignedTo: "Rudra",
+    description: "Karan",
     status: "new",
     priority: "High",
     startDate: "2024-02-08",
@@ -21,6 +21,7 @@ const TaskDetails = () => {
   return (
     <>
       <Container
+        maxWidth="xl-lg"
         sx={{
           m: 8,
           display: "flex",
@@ -44,13 +45,14 @@ const TaskDetails = () => {
               fontWeight: "700",
               display: 'flex',
               alignItems: 'center',
+              textDecoration:'none'
             }}
           >
-            <ArrowBackIcon sx={{ color: "#48B1ED", marginRight: '0.5rem' }} />
+            <ArrowBackIcon sx={{ color: "#48B1ED", marginRight: '0.5rem', }} />
             Back to all Tasks
           </Link>
         </div>
-        <div style={{ marginBottom: "3rem" }}>
+        <div style={{ margin: "0 0 3rem 0" }}>
           <Typography variant="h4" fontWeight={700}>
             Task Details
           </Typography>
@@ -72,12 +74,12 @@ const TaskDetails = () => {
               <Typography>{taskData.title}</Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="h6">Assigned to</Typography>
-              <Typography>{taskData.assignedTo}</Typography>
-            </Grid>
-            <Grid item xs={6}>
               <Typography variant="h6">Description</Typography>
               <Typography>{taskData.description}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">Assigned to</Typography>
+              <Typography>{taskData.assignedTo}</Typography>
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />

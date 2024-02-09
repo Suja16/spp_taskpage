@@ -23,7 +23,7 @@ export default function TransitionsModal() {
         slots={{ backdrop: StyledBackdrop }}
       >
         <Fade in={open}>
-          <ModalContent sx={style}>
+          <ModalContent sx={{...style,padding:'3rem'}}>
             <h1 style={{marginLeft:'3rem'}}>Create a New Task</h1>
             <Form/>
           </ModalContent>
@@ -101,7 +101,7 @@ const ModalContent = styled('div')(
     gap: 8px;
     overflow: hidden;
     background-color: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border-radius: 8px;
+    border-radius: 24px;
     border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
     box-shadow: 0 4px 12px
       ${theme.palette.mode === 'dark' ? 'rgb(0 0 0 / 0.5)' : 'rgb(0 0 0 / 0.2)'};

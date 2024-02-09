@@ -40,10 +40,9 @@ const CustomChip = ({ labels, value, onChange }: { labels: string[], value?: str
             "--Chip-radius": "3px",
             "--Chip-minHeight": "38px",
             backgroundColor: selectedChip === index ? '#48B1ED' : ' white',
-            color: selectedChip === index ? 'white' : '#48B1ED',
+            color: selectedChip === index ? '#1B648E' : '#232323',
             ':hover': {
               backgroundColor: selectedChip === index ? '#48B1ED' : ' white',
-              color: selectedChip === index ? 'black' : '#48B1ED',
             },
           }}
         />

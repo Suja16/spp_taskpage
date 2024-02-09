@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import CustomChip from './Chip';
 import { useForm } from 'react-hook-form';
@@ -42,7 +41,7 @@ export default function Form() {
   const schema: ZodType<FormData> = z.object({
     title: z.string().min(3).max(50),
     assignTo: z.string().min(3).max(50),
-    description: z.string().max(100),
+    description: z.string().min(2).max(100),
     startDate: z.date(),
     endDate: z.date(),
     priority: z.enum(['Low', 'Medium', 'High']),
@@ -58,7 +57,7 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
   };
 
   return (
-    <form style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between', padding: '3rem', alignItems: 'baseline' }} onSubmit={handleSubmit(submitData)}>
+    <form style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between', padding: '3vw', alignItems: 'baseline' }} onSubmit={handleSubmit(submitData)}>
       <TextField 
       id="title" 
       label="Title *"
@@ -75,9 +74,10 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
       error={Boolean(errors.assignTo)}
       helperText={errors.assignTo &&  errors.assignTo.message  }
       />
-      <TextField id="description" label="Description" variant="outlined" style={style} {...register('description')} />
-      {errors.description && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '-0.5rem' }}>{errors.description.message}</p>}
-
+      <TextField id="description" label="Description" variant="outlined" style={style} {...register('description')} 
+      error={Boolean(errors.description)}
+      helperText={errors.description && errors.description.message}
+      />
       <div style={{ ...style, display: 'flex', justifyContent: 'space-between' }}>
         <div style={err}>
         <TextField
