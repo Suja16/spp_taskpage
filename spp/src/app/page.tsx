@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import NextLink from 'next/link';
-import { Box, Container, Hidden } from '@mui/material';
+import { Box, Chip, Container, Hidden } from '@mui/material';
 import SpringModal from '@/components/popup';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
@@ -58,7 +58,16 @@ export default function Task() {
   const tableRows = tasks.map((tasks, index) => (
     <TableRow key={tasks.id}>
       <TableCell>{tasks.id}</TableCell>
-      <TableCell>{tasks.tags ? tasks.tags.join(',') : ''}</TableCell>
+      <TableCell>
+      {tasks.tags && tasks.tags.length >  0 ? tasks.tags.map((tag, index) => (
+        <Chip key={index} label={tag}
+        sx={{
+          borderRadius: '3px',
+          marginLeft:'6px'
+        }}
+        />
+      )) : '-' }
+      </TableCell>
       <TableCell>{tasks.priority}</TableCell>
       <TableCell>{new Date(tasks.startDate).toLocaleDateString()}</TableCell>
       <TableCell>{new Date(tasks.endDate).toLocaleDateString()}</TableCell>
@@ -91,7 +100,7 @@ export default function Task() {
                    ))}
                 </TableRow>
               </TableHead>
-              <TableBody>{tableRows}</TableBody>
+              <TableBody >{tableRows}</TableBody>
             </Table>
           </TableContainer>
         </Paper>
