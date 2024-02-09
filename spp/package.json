@@ -6,10 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && pnpm update --latest"
+    "tsc": "tsc"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.4",
     "@emotion/cache": "latest",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -21,6 +21,7 @@
     "@mui/material-nextjs": "latest",
     "@mui/x-date-pickers": "^6.19.3",
     "@react-spring/web": "^9.7.3",
+    "apollo-link-context": "^1.0.20",
     "dayjs": "^1.11.10",
     "next": "latest",
     "react": "latest",
@@ -38,12 +39,5 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "tsc": "tsc"  
   }
-
 }
