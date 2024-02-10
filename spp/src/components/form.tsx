@@ -1,11 +1,12 @@
+
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import CustomChip from './Chip';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType, string, z } from 'zod';
-
-
+import { useMutation} from '@apollo/client';
+import { gql } from '@apollo/client';
 const style = {
   width: '31vw',
   marginTop: '1rem',
@@ -28,8 +29,8 @@ const btnst = {
 };
 
 type FormData = {
-  title: string;
-  assignTo: string;
+  id: string;
+  assignedToId: string;
   description: string;
   startDate: string;
   endDate: string;
@@ -37,42 +38,70 @@ type FormData = {
   assignWork: 'Other' | 'Deposits' | 'Withdrawals';
 };
 
+const ADD_TASK = gql`
+  mutation MyMutation($input: tasks_insert_input!) {
+    insert_tasks(objects: [$input]) {
+      affected_rows
+    }
+  }
+`;
+
+
 export default function Form() {
   const schema: ZodType<FormData> = z.object({
-    title: z.string().min(3).max(50),
-    assignTo: z.string().min(3).max(50),
+    id: z.string().min(3).max(50),
+    assignedToId: z.string().min(3).max(50),
     description: z.string().min(2).max(100),
     startDate: z.date(),
     endDate: z.date(),
     priority: z.enum(['Low', 'Medium', 'High']),
-    assignWork: z.enum(['Other', 'Deposits', 'Withdrawals']),
+   
   });
 
-
+ 
 
 const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const submitData = (data: FormData) => {
-    console.log(data);
-  };
+
+const [addTask, { data, loading, error }] = useMutation(ADD_TASK);
+
+const submitData = async (data: FormData) => {
+  try {
+    const { id, priority, ...filteredData } = data;
+    const variables = {
+      input: {
+        ...filteredData,
+        title: id, // Assuming 'id' is meant to be the title
+        priority: priority.toUpperCase(),
+        status: 'PENDING', // Set the initial status to 'PENDING'
+      },
+    };
+    const { data: mutationData } = await addTask({ variables });
+    console.log(mutationData);
+    alert('Task added successfully');
+  } catch (error) {
+    console.error("Mutation failed", error);
+    alert('Error in adding task');
+  }
+};
 
   return (
     <form style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between', padding: '3vw', alignItems: 'baseline' }} onSubmit={handleSubmit(submitData)}>
       <TextField 
-      id="title" 
-      label="Title *"
+      id="id" 
+      label="Title"
        variant="outlined" 
-       style={style} {...register('title')}
-       error={Boolean(errors.title)}
-      helperText={errors.title &&  errors.title.message  } />
+       style={style} {...register('id')}
+       error={Boolean(errors.id)}
+      helperText={errors.id &&  errors.id.message  } />
       <TextField 
-      id="assignTo" 
+      id="assignedToId" 
       label="Assign To *" 
       variant="outlined" 
       style={style} 
-      {...register('assignTo')}
-      error={Boolean(errors.assignTo)}
-      helperText={errors.assignTo &&  errors.assignTo.message  }
+      {...register('assignedToId')}
+      error={Boolean(errors.assignedToId)}
+      helperText={errors.assignedToId &&  errors.assignedToId.message  }
       />
       <TextField id="description" label="Description" variant="outlined" style={style} {...register('description')} 
       error={Boolean(errors.description)}

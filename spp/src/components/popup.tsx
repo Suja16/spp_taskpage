@@ -5,13 +5,15 @@ import Fade from '@mui/material/Fade';
 import { Button } from '@mui/base/Button';
 import Login from './form';
 import Form from './form';
-
+import { ApolloProvider } from '@apollo/client';
+import client from 'lib/apollo-client';
 export default function TransitionsModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
+    <ApolloProvider client={client}>
     <div>
       <TriggerButton onClick={handleOpen} sx={{background:'#48B1ED'}}>CREATE NEW TASK</TriggerButton>
       <Modal
@@ -30,6 +32,7 @@ export default function TransitionsModal() {
         </Fade>
       </Modal>
     </div>
+    </ApolloProvider> 
   );
 }
 
