@@ -73,7 +73,7 @@ const submitData = async (data: FormData) => {
         ...filteredData,
         title: id, // Assuming 'id' is meant to be the title
         priority: priority.toUpperCase(),
-        status: 'PENDING', // Set the initial status to 'PENDING'
+        status: 'ASSIGNED', 
       },
     };
     const { data: mutationData } = await addTask({ variables });

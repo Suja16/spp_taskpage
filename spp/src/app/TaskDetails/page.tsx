@@ -4,10 +4,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { Grid } from "@mui/material";
 
+
+
+
 const TaskDetails = () => {
   const labels = ['Tag1', 'Tag2', 'Tag3'];
 
-  // Replace these with dynamic data based on your application
   const taskData = {
     title: "Karan",
     assignedTo: "Rudra",
