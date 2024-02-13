@@ -1,23 +1,52 @@
+"useclient"
 import React from "react";
 import { Container, Divider, Chip, Link, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { Grid } from "@mui/material";
+import { gql } from "@apollo/client";
+import client from "lib/apollo-client";
+import { useQuery } from "@apollo/client";
 
 
 
+const TASK_Data=gql`
+query MyQuery {
+  tasks{
+    id
+    tags
+    priority
+    startDate
+    endDate
+    status
+    description
+    assignedToId
+  }
+}
+`
 
 const TaskDetails = () => {
+
+  const { loading, error, data } = useQuery(TASK_Data);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) {
+    console.error("Error fetching tasks:", error);
+    return <p>Error!</p>;
+  }
+
+  const tasks = data?.tasks[0];
+
   const labels = ['Tag1', 'Tag2', 'Tag3'];
 
   const taskData = {
-    title: "Karan",
-    assignedTo: "Rudra",
-    description: "Karan",
-    status: "new",
-    priority: "High",
-    startDate: "2024-02-08",
-    endDate: "2024-02-15",
+    title: {tasks}.id,
+    assignedTo: {tasks}.assignedToId,
+    description: {tasks}.description,
+    status: {tasks}.status,
+    priority: {tasks}.priority,
+    startDate: {tasks}.startDate,
+    endDate: {tasks}.endDate,
   };
 
   return (

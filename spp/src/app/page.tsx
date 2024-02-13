@@ -47,13 +47,14 @@ const columns = [
 export default function Task() {
   const { loading, error, data } = useQuery(GET_DATA, { client });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) {
+  let content;
+  if (loading) {
+    content = <p>Loading...</p>;
+  } else if (error) {
     console.error("Error fetching tasks:", error);
-    return <p>Error!</p>;
-  }
-
-  const tasks = data?.tasks || [];
+    content = <p>Error!</p>;
+  } else {
+    const tasks = data?.tasks || [];
 
  
   const tableRows = tasks.map((tasks, index) => (
@@ -82,9 +83,25 @@ export default function Task() {
       </TableCell>
     </TableRow>
   ));
+  content = (
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => (
+              <TableCell key={column.id}>{column.label}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>{tableRows}</TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
 
   return (
-    <Container maxWidth="xl-lg" sx={{ mt:  8 }}>
+<Container maxWidth="xl-lg" sx={{ mt:  8 }}>
       <Box sx={{ margin: '0vw  5vw' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1>Tasks</h1>
@@ -92,18 +109,7 @@ export default function Task() {
         </div>
 
         <Paper style={{ height:  500, width: '100%', background: 'transparent', boxShadow: 'none', border: 'none' }}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell key={column.id}>{column.label}</TableCell>
-                   ))}
-                </TableRow>
-              </TableHead>
-              <TableBody >{tableRows}</TableBody>
-            </Table>
-          </TableContainer>
+          {content}
         </Paper>
       </Box>
     </Container>
