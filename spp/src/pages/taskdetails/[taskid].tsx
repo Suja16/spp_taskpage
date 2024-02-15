@@ -1,27 +1,56 @@
+// pages/taskdetails/[taskid].tsx
 import React from "react";
 import { Container, Divider, Chip, Link, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { Grid } from "@mui/material";
+import client from 'lib/apollo-client';
+import { gql } from '@apollo/client';
+import { GetServerSideProps } from 'next';
+import { useQuery } from "@apollo/client";
 
+const GET_DATA = gql`
+  query MyQuery($taskid: uuid!) {
+    tasks(where: {id: {_eq: $taskid}}) {
+      id
+      description
+      assignedToId
+      status
+      priority
+      startDate
+      endDate
+      tags
+    }
+  }
+`;
 
+interface TaskDetailsProps {
+  taskid: string;
+}
 
+export default function TaskDetailsPage({ taskid }: TaskDetailsProps) {
+  const { loading, error, data } = useQuery(GET_DATA, { variables: { taskid }, client });
 
-const TaskDetails = () => {
-  const labels = ['Tag1', 'Tag2', 'Tag3'];
-
-  const taskData = {
-    title: "Karan",
-    assignedTo: "Rudra",
-    description: "Karan",
-    status: "new",
-    priority: "High",
-    startDate: "2024-02-08",
-    endDate: "2024-02-15",
-  };
+  let content;
+  if (loading) {
+    content = <p>Loading...</p>;
+  } else if (error) {
+    console.error("Error fetching tasks:", error);
+    content = <p>Error!</p>;
+  } else {
+    const task = data?.tasks[0] || {};
+    
+    const taskData = {
+      title: task.id,
+      assignedTo: task.assignedToId, 
+      description: task.description,
+      status: task.status,
+      priority: task.priority,
+      startDate: task.startDate,
+      endDate: task.endDate,
+    };
 
   return (
-    <>
       <Container
         maxWidth="xl-lg"
         sx={{
@@ -113,23 +142,34 @@ const TaskDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6">Tags</Typography>
-              {labels.map((label, index) => (
-                <Chip
-                  key={index}
-                  label={label}
-                  sx={{
-                    borderRadius: '3px',
-                    minHeight: '38px',
-                    margin: '3px',
-                  }}
-                />
-              ))}
+              {task.tags && task.tags.map((tag, index) => (
+            <Chip
+              key={index}
+              label={tag}
+              sx={{
+                borderRadius: '3px',
+                minHeight: '38px',
+                margin: '3px',
+              }}
+            />
+          ))}
             </Grid>
           </Grid>
         </div>
       </Container>
-    </>
   );
-};
+}};
 
-export default TaskDetails;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // Extract the taskid from the context.params object
+  const { taskid } = context.query; // Assuming taskid is a string, use context.query instead of context.params
+
+  // Perform any server-side operations here, such as fetching data related to the taskid
+
+  // Return the taskid as a prop to the page component
+  return {
+    props: {
+      taskid,
+    },
+  };
+};
