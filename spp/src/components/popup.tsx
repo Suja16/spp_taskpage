@@ -46,6 +46,7 @@ const Backdrop = React.forwardRef<HTMLDivElement, { open?: boolean }>(
     );
   },
 );
+Backdrop.displayName = 'Backdrop';
 
 const blue = {
   200: '#99CCFF',
