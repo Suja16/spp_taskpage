@@ -55,6 +55,7 @@ export default function Form() {
     startDate: z.date(),
     endDate: z.date(),
     priority: z.enum(['Low', 'Medium', 'High']),
+    assignWork: z.enum(['Other', 'Deposits', 'Withdrawals']),
    
   });
 

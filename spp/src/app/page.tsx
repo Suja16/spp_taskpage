@@ -16,7 +16,10 @@ import client from 'lib/apollo-client';
 import { gql } from '@apollo/client';
 import TablePagination from '@mui/material/TablePagination';
 import TableFooter from '@mui/material/TableFooter';
-import { useState } from 'react';
+import LinearProgress from '@mui/material/LinearProgress';
+import Alert from '@mui/material/Alert';
+
+
 
 
 
@@ -53,10 +56,11 @@ export default function Task() {
 
   let content;
   if (loading) {
-    content = <p>Loading...</p>;
+    content = <LinearProgress/>
   } else if (error) {
     console.error("Error fetching tasks:", error);
-    content = <p>Error!</p>;
+    content = 
+    <Alert severity="error"> error 404 :( data  not available</Alert>
   } else {
     const tasks = data?.tasks || [];
 
