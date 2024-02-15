@@ -14,7 +14,9 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import client from 'lib/apollo-client';
 import { gql } from '@apollo/client';
-
+import TablePagination from '@mui/material/TablePagination';
+import TableFooter from '@mui/material/TableFooter';
+import { useState } from 'react';
 
 
 
@@ -46,6 +48,8 @@ const columns = [
 
 export default function Task() {
   const { loading, error, data } = useQuery(GET_DATA, { client });
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   let content;
   if (loading) {
@@ -56,8 +60,24 @@ export default function Task() {
   } else {
     const tasks = data?.tasks || [];
 
+    const handleChangePage = (
+      event: React.MouseEvent<HTMLButtonElement> | null,
+      newPage: number,
+    ) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      setRowsPerPage(parseInt(event.target.value,  10));
+      setPage(0);
+    };
+
  
-  const tableRows = tasks.map((tasks, index) => (
+    const tableRows = tasks
+    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    .map((tasks, index) => (
     <TableRow key={tasks.id}>
       <TableCell>{tasks.id}</TableCell>
       <TableCell>
@@ -87,6 +107,7 @@ export default function Task() {
       </TableCell>
     </TableRow>
   ));
+  
   content = (
     <TableContainer>
       <Table>
@@ -98,6 +119,16 @@ export default function Task() {
           </TableRow>
         </TableHead>
         <TableBody>{tableRows}</TableBody>
+        <TableFooter >
+        <TablePagination
+          count={tasks.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+        </TableFooter>
+
       </Table>
     </TableContainer>
   );
@@ -117,5 +148,6 @@ export default function Task() {
         </Paper>
       </Box>
     </Container>
+    
   );
 }
