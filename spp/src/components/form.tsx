@@ -72,7 +72,7 @@ const submitData = async (data: FormData) => {
     const variables = {
       input: {
         ...filteredData,
-        title: id, // Assuming 'id' is meant to be the title
+        title: id, 
         priority: priority.toUpperCase(),
         status: 'ASSIGNED', 
       },
@@ -153,7 +153,6 @@ const submitData = async (data: FormData) => {
             labels={['Other', 'Deposits', 'Withdrawals']}
             value={watch('assignWork')}
             onChange={(value) => setValue('assignWork', value)}
-            
           />
         {errors.assignWork && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '0.5rem' }}>{errors.assignWork.message}</p>}
       </div>
