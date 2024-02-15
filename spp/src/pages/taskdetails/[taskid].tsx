@@ -8,6 +8,8 @@ import client from 'lib/apollo-client';
 import { gql } from '@apollo/client';
 import { GetServerSideProps } from 'next';
 import { useQuery } from "@apollo/client";
+import LinearProgress from '@mui/material/LinearProgress';
+import Alert from '@mui/material/Alert';
 
 const GET_DATA = gql`
   query MyQuery($taskid: uuid!) {
@@ -33,10 +35,13 @@ export default function TaskDetailsPage({ taskid }: TaskDetailsProps) {
 
   let content;
   if (loading) {
-    content = <p>Loading...</p>;
+    content = <LinearProgress />;
   } else if (error) {
     console.error("Error fetching tasks:", error);
-    content = <p>Error!</p>;
+    content =
+      <Alert severity="error">
+        Error fetching tasks
+      </Alert>;
   } else {
     const task = data?.tasks[0] || {};
     
@@ -161,12 +166,7 @@ export default function TaskDetailsPage({ taskid }: TaskDetailsProps) {
 }};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // Extract the taskid from the context.params object
-  const { taskid } = context.query; // Assuming taskid is a string, use context.query instead of context.params
-
-  // Perform any server-side operations here, such as fetching data related to the taskid
-
-  // Return the taskid as a prop to the page component
+  const { taskid } = context.query; 
   return {
     props: {
       taskid,

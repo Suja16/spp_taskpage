@@ -124,6 +124,7 @@ export default function Task() {
         </TableHead>
         <TableBody>{tableRows}</TableBody>
         <TableFooter >
+          <TableRow>
         <TablePagination
           count={tasks.length}
           page={page}
@@ -131,6 +132,7 @@ export default function Task() {
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        </TableRow>
         </TableFooter>
 
       </Table>
