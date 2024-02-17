@@ -7,6 +7,10 @@ import Login from './form';
 import Form from './form';
 import { ApolloProvider } from '@apollo/client';
 import client from 'lib/apollo-client';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { Box } from '@mui/material';
+
+
 export default function TransitionsModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -23,10 +27,14 @@ export default function TransitionsModal() {
         onClose={handleClose}
         closeAfterTransition
         slots={{ backdrop: StyledBackdrop }}
+        sx={{overflow:'scroll'}}
       >
         <Fade in={open}>
-          <ModalContent sx={{...style,padding:'3rem'}}>
+          <ModalContent sx={{...style,padding:'3rem',}}>
+            <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <h1 style={{marginLeft:'3rem'}}>Create a New Task</h1>
+            <CloseOutlinedIcon onClick={handleClose} sx={{cursor:'pointer'}}/>
+            </Box>
             <Form/>
           </ModalContent>
         </Fade>

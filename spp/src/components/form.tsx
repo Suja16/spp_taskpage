@@ -67,6 +67,7 @@ const { register, handleSubmit, formState: { errors }, watch, setValue } = useFo
 const [addTask, { data, loading, error }] = useMutation(ADD_TASK);
 
 const submitData = async (data: FormData) => {
+  console.log(data);
   try {
     const { id, priority, ...filteredData } = data;
     const variables = {
@@ -114,7 +115,7 @@ const submitData = async (data: FormData) => {
           id="start-date"
           label="Start Date"
           type="date"
-          defaultValue="2022-01-01"
+          defaultValue={new Date().toISOString().split('T')[0]}
           style={{ width: '15vw' }}
           InputLabelProps={{
             shrink: true,
@@ -127,7 +128,7 @@ const submitData = async (data: FormData) => {
           id="end-date"
           label="End Date"
           type="date"
-          defaultValue="2022-01-01"
+          defaultValue={new Date().toISOString().split('T')[0]}
           style={{ width: '15vw' }}
           InputLabelProps={{
             shrink: true,
@@ -142,9 +143,10 @@ const submitData = async (data: FormData) => {
         <CustomChip
             labels={['Low', 'Medium', 'High']}
             value={watch('priority')}
-            onChange={(value) => setValue('priority', value)}
+            onChange={(value) => setValue('priority',  value as 'Low' | 'Medium' | 'High', {
+              shouldValidate: true,
+            })}
           />
-
       {errors.priority && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '0.5rem' }}>{errors.priority.message}</p>}
       </div>
       <div style={style}>
@@ -152,7 +154,9 @@ const submitData = async (data: FormData) => {
         <CustomChip
             labels={['Other', 'Deposits', 'Withdrawals']}
             value={watch('assignWork')}
-            onChange={(value) => setValue('assignWork', value)}
+            onChange={(value) => setValue('assignWork', value as 'Other'| 'Deposits'| 'Withdrawals',{
+              shouldValidate: true,
+            })}
           />
         {errors.assignWork && <p style={{ color: 'red', marginLeft: '0.3rem', marginTop: '0.5rem' }}>{errors.assignWork.message}</p>}
       </div>

@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import NextLink from 'next/link';
 import { Box, Chip, Container, Hidden } from '@mui/material';
 import SpringModal from '@/components/popup';
 import Link from 'next/link';
@@ -18,16 +17,17 @@ import TablePagination from '@mui/material/TablePagination';
 import TableFooter from '@mui/material/TableFooter';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
-
-
-
-
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import KeyboardDoubleArrowUp from '@mui/icons-material/KeyboardDoubleArrowUp';
+import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
 
 
 const GET_DATA=gql`
 query MyQuery {
   tasks{
     id
+    title
     tags
     priority
     startDate
@@ -83,7 +83,7 @@ export default function Task() {
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     .map((tasks, index) => (
     <TableRow key={tasks.id}>
-      <TableCell>{tasks.id}</TableCell>
+      <TableCell>{tasks.title}</TableCell>
       <TableCell>
       {tasks.tags && tasks.tags.length >  0 ? tasks.tags.map((tag, index) => (
         <Chip key={index} label={tag}
@@ -94,19 +94,32 @@ export default function Task() {
         />
       )) : '-' }
       </TableCell>
-      <TableCell>{tasks.priority}</TableCell>
+      <TableCell>
+      <Box sx={{alignItems:'center',display:'flex'}}>
+      {tasks.priority}
+      {tasks.priority === 'HIGH' ? <KeyboardDoubleArrowUp color='primary' /> : tasks.priority === 'MEDIUM' ? <ExpandLessIcon color="primary" /> : <RemoveIcon color="primary" />}
+      </Box>
+      </TableCell>
       <TableCell>{new Date(tasks.startDate).toLocaleDateString()}</TableCell>
       <TableCell>{new Date(tasks.endDate).toLocaleDateString()}</TableCell>
-      <TableCell>{tasks.status}</TableCell>
+      <TableCell>
+      <Chip
+                label={tasks.status}
+                variant="outlined"
+                color={tasks.status === 'COMPLETED' ? 'success': tasks.status === 'PENDING' ? 'warning' : 'primary'}
+                sx={{
+                  borderRadius: '3px',
+                  minHeight: '38px',
+                }}
+              />
+      </TableCell>
       <TableCell>
       <Link
             href={{
               pathname: "/taskdetails/" + tasks.id,
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0  0  24  24">
-            <path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/>
-            </svg>
+            <RemoveRedEyeTwoToneIcon color="primary" />
         </Link>
       </TableCell>
     </TableRow>

@@ -10,11 +10,16 @@ import { GetServerSideProps } from 'next';
 import { useQuery } from "@apollo/client";
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
+import KeyboardDoubleArrowUp from '@mui/icons-material/KeyboardDoubleArrowUp';
+import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
+
 
 const GET_DATA = gql`
   query MyQuery($taskid: uuid!) {
     tasks(where: {id: {_eq: $taskid}}) {
       id
+      title
       description
       assignedToId
       status
@@ -46,7 +51,7 @@ export default function TaskDetailsPage({ taskid }: TaskDetailsProps) {
     const task = data?.tasks[0] || {};
     
     const taskData = {
-      title: task.id,
+      title: task.title,
       assignedTo: task.assignedToId, 
       description: task.description,
       status: task.status,
@@ -124,6 +129,8 @@ export default function TaskDetailsPage({ taskid }: TaskDetailsProps) {
               <Typography variant="h6">Status</Typography>
               <Chip
                 label={taskData.status}
+                variant="outlined"
+                color={taskData.status === 'COMPLETED' ? 'success': taskData.status === 'PENDING' ? 'warning' : 'primary'}
                 sx={{
                   borderRadius: '3px',
                   minHeight: '38px',
@@ -133,17 +140,19 @@ export default function TaskDetailsPage({ taskid }: TaskDetailsProps) {
             <Grid item xs={6}>
               <Typography variant="h6">Priority</Typography>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <Typography>{taskData.priority}</Typography>
-                <KeyboardDoubleArrowUpIcon sx={{ color: "#3199D4" }} />
+                <Typography>
+                  {taskData.priority}
+                </Typography>
+                {taskData.priority === 'HIGH' ? <KeyboardDoubleArrowUp color='primary' /> : taskData.priority === 'MEDIUM' ? <ExpandLessIcon color="primary" /> : <RemoveIcon color="primary" />}
               </div>
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6">Start Date</Typography>
-              <Typography>{taskData.startDate}</Typography>
+              <Typography>{new Date(taskData.startDate).toLocaleDateString()}</Typography>
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6">End Date</Typography>
-              <Typography>{taskData.endDate}</Typography>
+              <Typography>{new Date(taskData.endDate).toLocaleDateString()}</Typography>
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6">Tags</Typography>
