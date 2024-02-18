@@ -21,8 +21,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import KeyboardDoubleArrowUp from '@mui/icons-material/KeyboardDoubleArrowUp';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
-
-
+import { TaskTags } from '@/components/popover';
 const GET_DATA=gql`
 query MyQuery {
   tasks{
@@ -80,19 +79,13 @@ export default function Task() {
 
  
     const tableRows = tasks
-    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    .map((tasks, index) => (
+  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  .map((tasks, index) => (
     <TableRow key={tasks.id}>
       <TableCell>{tasks.title}</TableCell>
       <TableCell>
-      {tasks.tags && tasks.tags.length >  0 ? tasks.tags.map((tag, index) => (
-        <Chip key={index} label={tag}
-        sx={{
-          borderRadius: '3px',
-          marginLeft:'6px'
-        }}
-        />
-      )) : '-' }
+        { tasks.tags  ? <TaskTags tags={tasks.tags} /> : '-'}
+        
       </TableCell>
       <TableCell>
       <Box sx={{alignItems:'center',display:'flex'}}>
@@ -157,10 +150,10 @@ export default function Task() {
   return (
 <Container maxWidth="xl-lg" sx={{ mt:  8 }}>
       <Box sx={{ margin: '0vw  5vw' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1>Tasks</h1>
           <SpringModal />
-        </div>
+        </Box>
 
         <Paper style={{ height:  500, width: '100%', background: 'transparent', boxShadow: 'none', border: 'none' }}>
           {content}
