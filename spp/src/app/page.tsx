@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, Chip, Container, Hidden } from '@mui/material';
+import { Box, Chip, Container, Hidden, IconButton, TextField } from '@mui/material';
 import SpringModal from '@/components/popup';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
@@ -22,9 +22,13 @@ import KeyboardDoubleArrowUp from '@mui/icons-material/KeyboardDoubleArrowUp';
 import RemoveIcon from '@mui/icons-material/Remove';
 import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
 import { TaskTags } from '@/components/popover';
-const GET_DATA=gql`
-query MyQuery {
-  tasks{
+import SearchIcon from '@mui/icons-material/Search';
+import SimplePopup from '@/components/Filter';
+
+
+const GET_DATA = gql`
+query MyQuery($searchTerm: String) {
+ tasks(where: {title: {_ilike: $searchTerm}}) {
     id
     title
     tags
@@ -32,9 +36,10 @@ query MyQuery {
     startDate
     endDate
     status
-  }
+ }
 }
 `;
+
 
 
 const columns = [
@@ -49,7 +54,12 @@ const columns = [
 
 
 export default function Task() {
-  const { loading, error, data } = useQuery(GET_DATA, { client });
+  const [searchInput, setSearchInput] = React.useState("");
+
+  const { loading, error, data } = useQuery(GET_DATA, {
+    variables: { searchTerm: "%" + searchInput + "%" },
+    client,
+   });
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -154,6 +164,21 @@ export default function Task() {
           <h1>Tasks</h1>
           <SpringModal />
         </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <TextField
+        label="Search"
+        variant="outlined"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        InputProps={{
+            endAdornment: (
+              <SearchIcon style={{ cursor: 'pointer' }} onClick={() => console.log('Search')} />
+            ),
+        }}
+        />
+        <SimplePopup/>
+      </Box>
+
 
         <Paper style={{ height:  500, width: '100%', background: 'transparent', boxShadow: 'none', border: 'none' }}>
           {content}
